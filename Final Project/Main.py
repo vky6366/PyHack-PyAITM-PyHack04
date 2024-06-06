@@ -129,7 +129,7 @@ Screen:
             pos_hint: {'right': 0.98, 'top': 0.95}
             on_release: app.open_feedback_form()
         Image:
-            source: "C:/Users/vishw/Desktop/Final Project/Screenshot_2024-06-05_183742-removebg-preview.png"
+            source: "C:/Users/vishw/Desktop/Final Project/Title.png"
             size_hint: (1, None)
             height: 200
             pos_hint: {'center_x': 0.5, 'top': 0.85}
@@ -250,24 +250,24 @@ class PhishingApp(MDApp):
     def predict_phishing(self):
         url = self.root.ids.url_entry.text.strip()
         if not url:
-            self.show_popup("Please enter a URL.", "error", "C:/Users/vishw/Desktop/Final Project/Exclamation-removebg-preview.png")
+            self.show_popup("Please enter a URL.", "error", "C:/Users/vishw/Desktop/Final Project/Exclamation.png")
             return
 
         if not self.is_valid_url(url):
-            self.show_popup("Invalid URL format. Please enter a correct URL.", "error", "C:/Users/vishw/Desktop/Final Project/Exclamation-removebg-preview.png")
+            self.show_popup("Invalid URL format. Please enter a correct URL.", "error", "C:/Users/vishw/Desktop/Final Project/Exclamation.png")
             return
         
         try:
             features = self.extract_features_from_url(url)
         except ValueError:
             result = "Not Phishing" if url.startswith('https') else "Phishing"
-            img_path = "C:/Users/vishw/Desktop/Final Project/13f6bc8a60da4da9513e7a1f5fc57955.png" if result == "Not Phishing" else "C:/Users/vishw/Desktop/Final Project/wrong-icon-white-cross-red-circle-decline-symbol_81894-8894.jpg"
+            img_path = "C:/Users/vishw/Desktop/Final Project/Safe.png" if result == "Not Phishing" else "C:/Users/vishw/Desktop/Final Project/Unsafe.jpg"
             self.show_popup(result, "safe" if result == "Not Phishing" else "phishing", img_path)
             return
 
         prediction = model.predict(features)
         result = "Phishing" if prediction[0] == 1 else "Not Phishing"
-        img_path = "C:/Users/vishw/Desktop/Final Project/tick-icon.jpg" if result == "Not Phishing" else "C:/Users/vishw/Desktop/Final Project/wrong-icon-white-cross-red-circle-decline-symbol_81894-8894.jpg"
+        img_path = "C:/Users/vishw/Desktop/Final Project/Safe.jpg" if result == "Not Phishing" else "C:/Users/vishw/Desktop/Final Project/Unsafe.jpg"
         self.show_popup(f"Prediction: {result}", "safe" if result == "Not Phishing" else "phishing", img_path)
 
     def show_popup(self, message, status, image_path):
@@ -321,7 +321,7 @@ class PhishingApp(MDApp):
         feedback_label = Label(
         text='Your Feedback is \nImportant to us',
         size_hint_y=None,
-        height=30,
+        height=20,
         font_size='20sp',
         color = [0, 0, 0, 1]
         )
