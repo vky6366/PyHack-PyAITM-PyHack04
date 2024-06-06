@@ -17,6 +17,7 @@ from kivy.uix.textinput import TextInput
 from kivy.utils import get_color_from_hex
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.graphics import Color, RoundedRectangle
+from kivymd.uix.textfield import MDTextField
 
 # Load the pre-trained model and label encoders
 model = joblib.load("C:\\Users\\vishw\\Desktop\\Final Project\\Data\\final_decision_tree_model.joblib")
@@ -39,7 +40,7 @@ KV = '''
         RoundedRectangle:
             size: self.size
             pos: self.pos
-            radius: [20]
+            radius: [15]
 
     BoxLayout:
         orientation: 'vertical'
@@ -52,12 +53,14 @@ KV = '''
             height: 30
             font_size: '20sp'
 
-        TextInput:
+        MDTextField:
             id: name_input
             hint_text: 'Enter your name'
             size_hint_y: None
             height: 40
             multiline: False
+            height: 50
+            color: 0, 0, 0, 1
 
         TextInput:
             id: feedback_input
@@ -85,7 +88,7 @@ KV = '''
             size_hint_y: None
             height: 40
             padding: [10, 5]
-            background_color: 1, 1, 1, 1
+            background_color: 0, 0, 0, 1
             foreground_color: 0, 0, 0, 1
             multiline: False
 
@@ -126,7 +129,7 @@ Screen:
             pos_hint: {'right': 0.98, 'top': 0.95}
             on_release: app.open_feedback_form()
         Image:
-            source: "C:/Users/vishw/Desktop/Final Project/Screenshot_2024-06-05_182624-removebg-preview.png"
+            source: "C:/Users/vishw/Desktop/Final Project/Screenshot_2024-06-05_183742-removebg-preview.png"
             size_hint: (1, None)
             height: 200
             pos_hint: {'center_x': 0.5, 'top': 0.85}
@@ -315,9 +318,34 @@ class PhishingApp(MDApp):
     def open_feedback_form(self):
         # Open a popup with fields for name and feedback
         box = BoxLayout(orientation='vertical', padding=(10), spacing=10)
-        
-        name_input = TextInput(hint_text='Enter your name', size_hint_y=None, height=30)
-        feedback_input = TextInput(hint_text='Enter your feedback here', size_hint_y=None, height=90)
+        feedback_label = Label(
+        text='Your Feedback is \nImportant to us',
+        size_hint_y=None,
+        height=30,
+        font_size='20sp',
+        color = [0, 0, 0, 1]
+        )
+        box.add_widget(feedback_label)
+        name_input = MDTextField(
+            hint_text='Enter your name',
+            size_hint_y=None,
+            height=30,
+            background_color=(0.1, 0.5, 0.6, 1),  # RGB with alpha
+            foreground_color=(1, 1, 1, 1),        # Text color
+            font_size=18,
+            padding_y=(5, 5),
+            multiline=False
+        )
+        feedback_input = MDTextField(
+            hint_text='Enter your feedback here',
+            size_hint_y=None,
+            height=90,
+            background_color=(0.2, 0.2, 0.2, 1),
+            foreground_color=(0.8, 0.8, 0.8, 1),
+            font_size=16,
+            padding_y=(10, 10),
+            multiline=True
+        )
         submit_button = Button(text='Submit', size_hint_y=None, height=30,
                                on_release=lambda x: self.submit_feedback(name_input.text, feedback_input.text))
         
@@ -328,8 +356,8 @@ class PhishingApp(MDApp):
         # Create a popup with a specific background color
         self.feedback_popup = Popup(title='Feedback Form',
                                     content=box,
-                                    size_hint=(0.5, 0.4),
-                                    background='Alice Blue',  # Assuming this needs to be a path or RGBA
+                                    size_hint=(0.4, 0.5),
+                                    background='Alice Blue',
                                     separator_color=self.theme_cls.primary_color)
         self.feedback_popup.open()
 
