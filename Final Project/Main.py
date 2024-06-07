@@ -134,39 +134,36 @@ Screen:
             pos_hint: {'center_x': 0.5, 'top': 0.85}
 
         MDCard:
-        background_normal: ''
-        background_color: 0.878, 1.0, 1.0, 0.5  # Set alpha to 0.5 for 50% opacity
-        size_hint: None, None
-        size: "600dp", "220dp"
-        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-        elevation: 1
-        padding: "10dp"
-        spacing: "10dp"
-        orientation: 'vertical'
-    
-        Label:
-            text: 'Enter URL'
-            size_hint_y: None
-            height: 40
-            font_size: '18sp'
-            color: 0, 0, 0, 1
-            pos_hint: {'center_x': 0.5,'center_y': 0.8}
-    
-        MDTextField:
-            id: url_entry
-            hint_text: "Enter URL"
-            helper_text_mode: "on_focus"
-            icon_right: "magnify"
-            size_hint_x: None
-            width: "250dp"
-            pos_hint: {'center_x': 0.5}
-    
-        MDRaisedButton:
-            text: "Detect"
             size_hint: None, None
-            size: "140dp", "48dp"
-            pos_hint: {'center_x': 0.5}
-            on_release: app.predict_phishing()
+            size: "600dp", "220dp"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+            elevation: 1
+            padding: "10dp"
+            spacing: "10dp"
+            orientation: 'vertical'
+            md_bg_color: 1, 1, 1, 1  # Adjusted for KivyMD
+
+            Label:
+                text: 'Enter URL'
+                size_hint_y: None
+                height: 40
+                font_size: '18sp'
+                color: 0, 0, 0, 1
+                pos_hint: {'center_x': 0.5, 'center_y': 0.8}
+
+            MDTextField:
+                id: url_entry
+                hint_text: "Enter URL"
+                size_hint_x: None
+                width: "250dp"
+                pos_hint: {'center_x': 0.5}
+
+            MDRaisedButton:
+                text: "Detect"
+                size_hint: None, None
+                size: "140dp", "48dp"
+                pos_hint: {'center_x': 0.5}
+                on_release: app.predict_phishing()
 
 
 '''
@@ -271,13 +268,13 @@ class PhishingApp(MDApp):
             features = self.extract_features_from_url(url)
         except ValueError:
             result = "Not Phishing" if url.startswith('https') else "Phishing"
-            img_path = "C:/Users/vishw/Desktop/Final Project/Safe.png" if result == "Not Phishing" else "C:/Users/vishw/Desktop/Final Project/Unsafe.jpg"
+            img_path = "C:/Users/vishw/Desktop/Final Project/Safe.png" if result == "Not Phishing" else "C:/Users/vishw/Desktop/Final Project/Unsafe.png"
             self.show_popup(result, "safe" if result == "Not Phishing" else "phishing", img_path)
             return
 
         prediction = model.predict(features)
         result = "Phishing" if prediction[0] == 1 else "Not Phishing"
-        img_path = "C:/Users/vishw/Desktop/Final Project/Safe.jpg" if result == "Not Phishing" else "C:/Users/vishw/Desktop/Final Project/Unsafe.jpg"
+        img_path = "C:/Users/vishw/Desktop/Final Project/Safe.jpg" if result == "Not Phishing" else "C:/Users/vishw/Desktop/Final Project/Unsafe.png"
         self.show_popup(f"Prediction: {result}", "safe" if result == "Not Phishing" else "phishing", img_path)
 
     def show_popup(self, message, status, image_path):
